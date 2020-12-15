@@ -3,12 +3,15 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "appServiceName": {
+            "defaultValue": "cljungvcverifier",
             "type": "string"
         },
         "appServicePlanName": {
+            "defaultValue": "cljungdemob2c-linux-plan",
             "type": "string"
         },
         "siteLocation": {
+            "defaultValue": "West Europe",
             "type": "string"
         }
     },
@@ -73,7 +76,10 @@
                 "containerSize": 0,
                 "dailyMemoryTimeQuota": 0,
                 "httpsOnly": false,
-                "redundancyMode": "None"
+                "redundancyMode": "None",
+                "repoUrl": "https://github.com/cljung/b2c-vc-verifier.git",
+                "branch": "master",
+                "IsManualIntegration": true                
             }
         },
         {
