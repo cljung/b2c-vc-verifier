@@ -68,7 +68,6 @@
                 "reserved": true,
                 "isXenon": false,
                 "hyperV": false,
-                "siteConfig": {},
                 "scmSiteAlsoStopped": false,
                 "clientAffinityEnabled": false,
                 "clientCertEnabled": false,
@@ -79,7 +78,15 @@
                 "redundancyMode": "None",
                 "repoUrl": "https://github.com/cljung/b2c-vc-verifier.git",
                 "branch": "master",
-                "IsManualIntegration": true                
+                "IsManualIntegration": true,
+                "siteConfig": {
+                    "appSettings": [
+                      {
+                        "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+                        "value": "true"
+                      }
+                    ]
+                }
             }
         },
         {

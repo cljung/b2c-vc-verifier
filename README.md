@@ -15,14 +15,49 @@ In order to make the Verifiable Credentials with Azure AD B2C, you need to deplo
 
 # Deploy the VC Verifier to Azure App Service
 
+## Installing the app without cloning it to your local laptop
+
+Deploy the Azure AppService resource via clicking this button and providing the details.
+
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcljung%2Fb2c-vc-verifier%2Fmain%2FARMTemplates%2Ftemplate.json)
 
+Then, in portal.azure.com and in the AppService panel for your deployment, click on open SSH in the menu, then issue these commands
+
+```bash
+cd site
+apt-get install git
+git clone https://github.com/cljung/b2c-vc-verifier.git
+cp ./b2c-vc-verifier/verifier/* ./wwwroot
+cd ./wwwroot
+npm install
+```
+  
+The `npm install` command will take some time and also end with some errors, but that can be ignored. When it is completed, restart the AppService and you are good to go.
+
+## Installing the app via Powershell
+
+1. git clone this repository.
+1. Open a powershell command prompt and navigate to the `ARMTemplates` folder
+1. Run the command
+
+```powershell
+.\deploy.ps1 -CreateResource -DeployApp -AppServiceName "your-app-name-that-must-be-unique"
+```
+
+The deployment will take some 5-10 minutes. When completed, test that the deployment works via browsing to `https://your-app-name-that-must-be-unique.azurewebsites.net/echo`.
+
+If you want to remove the deployment completly, you either delete the resource group in portal.azure.com or run the powershell command
+
+```powershell
+.\deploy.ps1 -DeleteResource -AppServiceName "your-app-name-that-must-be-unique"
+```
 
 # Deploy the custom html
 
 - Create an Azure Storage Account and CORS enable it for your B2C tenant (explained [here](https://docs.microsoft.com/en-us/azure/active-directory-b2c/customize-ui-with-html?pivots=b2c-user-flow#2-create-an-azure-blob-storage-account))
-- Edit the `selfAsserted.html` file and replace the url reference with the url for your Azure App Service deployment.
+- Edit the `selfAsserted.html` file and replace the url reference `var apiUrl = "https://cljungvcverifier.azurewebsites.net";` with the url for your Azure App Service deployment.
 - Upload the html files
+- Copy the full url to the files and test that you can access them in a browser.
 
 # Deploy an Azure AD B2C instance
 
