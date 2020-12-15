@@ -15,7 +15,7 @@ In order to make the Verifiable Credentials with Azure AD B2C, you need to deplo
 
 # Deploy the VC Verifier to Azure App Service
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcljung%2Fb2c-vc-verifier%2Fmain%2FARMTemplates%2Ftemplate.json%26api-version%3D6.0)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcljung%2Fb2c-vc-verifier%2Fmain%2FARMTemplates%2Ftemplate.json)
 
 
 # Deploy the custom html
