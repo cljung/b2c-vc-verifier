@@ -43,6 +43,7 @@ if ( $DeployApp ) {
     }
     Compress-Archive -Path * -DestinationPath $ZipFile
     Publish-AzWebapp -ResourceGroupName $resourceGroupName -Name $AppServiceName -ArchivePath $ZipFile -Force
+    Remove-Item $ZipFile -Force
     popd
     get-Date -format 's'
 }

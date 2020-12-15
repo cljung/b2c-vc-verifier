@@ -66,7 +66,7 @@
 </head>
 <body>
     <div id="background_branding_container" data-tenant-branding-background-color="true">
-      <img data-tenant-branding-background="true" src="https://cljungdemob2c.blob.core.windows.net/uxcust/templates/vc/whoareyou.jpg" alt="Illustration"/>
+      <img data-tenant-branding-background="true" src="https://your-storage-account.blob.core.windows.net/your-container/whoareyou.jpg" alt="Illustration"/>
     </div>
     <p id="screen_reader_msg" role="alert" aria-label="Page has been loaded successfully"></p>
     <div class="container  self_asserted_container " role="presentation">
@@ -101,7 +101,7 @@
         //var display = document.getElementById('display');
         var qrcode = new QRCode("qrcode", { width: 300, height: 300 });
 
-        var apiUrl = "https://cljungvcverifier.azurewebsites.net"; //"http://localhost:8082";
+        var apiUrl = "https://your-app-name-that-must-be-unique.azurewebsites.net"; //"http://localhost:8082";
         var respPresReq = null;
 
         checkPresentationResponse();
