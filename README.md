@@ -68,13 +68,17 @@ You need an B2C tenant instance for this sample to work. The current B2C price m
 
 # Modify and upload the B2C Custom Policies
 
+The XML files in the [policies](/policies) folder are the B2C Custom Policies. These files are in a generic state and need to be updated to match your tenant. Therefor, the following needs to be done:
+
 - Search-and-replace all references to `yourtenant.onmicrosoft.com` with your real tenant name, for example `contosob2c.onmicrosof.com`, in all policy xml files.
 - Search-and-replace all references to `yourstorageaccount.blob.core.windows.net` with your real storage account in file `TrustFrameworkExtensions.xml`. Make sure the path matches to the full path of each uploaded html document in previous section.
 - Find the `login-NonInteractive` TechnicalProfile in the `TrustFrameworkExtensions.xml` file and replace the guids for the IdentityExperienceFramework and ProxyIdentityExperienceFramework applications. You need to replace it with the AppIDs (client_id's) from the registered applications in your B2C tenant.
+- Find the `ServiceUrl` for the VC Verifier deployed in Azure AppService and update it.
+- Possibly add your AppInsights InstrumentationKey so you can get trace events when the B2C policy engine executes your policy.
 - Upload the policies in order: `TrustFrameworkBase.xml`, `TrustFrameworkExtensions.xml` and then the rest in no particular order.
 
 ## Script to make all changes
-In order to make the search-and-replace easier, there is a powershell script called `set-b2ctenant-detail.ps1` that will do all this for you and make the policies ready for upload. If you replace the variable settings in the first 6 lines with your values, you can then run this script on the folder of the policy files.
+In order to make the search-and-replace easier, there is a powershell script called [set-b2ctenant-detail.ps1](/policies/set-b2ctenant-detail.ps1) that will do all this for you and make the policies ready for upload. If you replace the variable settings in the first 6 lines with your values, you can then run this script on the folder of the policy files.
 
 ```powershell
 $B2CTenantName = "nameofmytenant"                     # not nameofmytenant.onmicrosoft.com
@@ -103,7 +107,7 @@ foreach( $file in $files ) {
 
 # Registering a Test Application in your B2C tenant
 
-You should have created a test application during the "Custom Policy Getting Started" section above. If you didn't, follow the documentation[here](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-register-applications?tabs=app-reg-ga). Make sure you set the Redirect URI type to `Web` and the redirectUri to `https://jwt.ms` as it makes testing B2C policies easy.
+You should have created a test application during the "Custom Policy Getting Started" section above. If you didn't, follow the documentation [here](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-register-applications?tabs=app-reg-ga). Make sure you set the Redirect URI type to `Web` and the redirectUri to `https://jwt.ms` as it makes testing B2C policies easy.
 
 # Testing your Verifiable Credentials
 
