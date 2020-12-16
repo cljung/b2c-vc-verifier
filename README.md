@@ -21,7 +21,7 @@ Deploy the Azure AppService resource via clicking this button and providing the 
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcljung%2Fb2c-vc-verifier%2Fmain%2FARMTemplates%2Ftemplate.json)
 
-Then, in portal.azure.com and in the AppService panel for your deployment, click on open SSH in the menu, then issue these commands
+Then, in portal.azure.com and in the AppService panel for your deployment, click on open SSH in the menu, then issue these commands in the terminal window that opens in a separate tab.
 
 ```bash
 cd site
@@ -40,8 +40,10 @@ The `npm install` command will take some time and also end with some errors, but
 1. Open a powershell command prompt and navigate to the `ARMTemplates` folder
 1. Run the command
 
+For this script to work you need to have the Azure powershell module installed (Az.Accounts + Az.Resources). If you already have run `Connect-AzAccount`, you can skip the `-Login` parameter.
+
 ```powershell
-.\deploy.ps1 -CreateResource -DeployApp -AppServiceName "your-app-name-that-must-be-unique"
+.\deploy.ps1 -Login -CreateResource -DeployApp -AppServiceName "your-app-name-that-must-be-unique"
 ```
 
 The deployment will take some 5-10 minutes. When completed, test that the deployment works via browsing to `https://your-app-name-that-must-be-unique.azurewebsites.net/echo`.
@@ -54,13 +56,15 @@ If you want to remove the deployment completly, you either delete the resource g
 
 # Deploy the custom html
 
-- Create an Azure Storage Account and CORS enable it for your B2C tenant, as explained [here](https://docs.microsoft.com/en-us/azure/active-directory-b2c/customize-ui-with-html?pivots=b2c-user-flow#2-create-an-azure-blob-storage-account)). You should perform step 2 through 3.1. Note that you can select `LRS` for Replication as `RA-GRS` is a bit overkill.
+- Create an Azure Storage Account and CORS enable it for your B2C tenant, as explained [here](https://docs.microsoft.com/en-us/azure/active-directory-b2c/customize-ui-with-html?pivots=b2c-user-flow#2-create-an-azure-blob-storage-account). You should perform step 2 through 3.1. Note that you can select `LRS` for Replication as `RA-GRS` is a bit overkill.
 - Edit the `selfAsserted.html` file and replace the url reference `var apiUrl = "https://cljungvcverifier.azurewebsites.net";` with the url for your Azure App Service deployment.
 - Edit both `selfAsserted.html` and `unified.html` and replace `https://your-storage-account.blob.core.windows.net/your-container/` with the name of your storage account and container.
 - Upload the files whoareyou.jpg, selfAsserted.html, unified.html to the container in the Azure Storage.
 - Copy the full url to the files and test that you can access them in a browser.
 
 Note that in `selfAsserted.html` there is a link to the page `https://cljungvcissuer.azurewebsites.net/` for issuing Verifiable Credentials of the Ninja kind. This is a deployment of the sample [VC Issuer](https://github.com/Azure-Samples/active-directory-verifiable-credentials/tree/main/verifier) and if you create your own issuer, you should replace this link.
+
+![issuer link](media/issuer-link.png)
 
 # Deploy an Azure AD B2C instance
 
@@ -103,6 +107,17 @@ foreach( $file in $files ) {
 
     Set-Content -Path $PolicyFile -Value $PolicyData
 }
+```
+
+If you don't have an AppInsights instance ready at this time, you need to manually edit the files SigninVC.xml, SigninVCOnly.xml, SignUpOrSignin.xml and AccountLinkingVC.xml. What needs to be removed are the following:
+
+```xml
+DeploymentMode="Development" 
+UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights"
+```
+
+```xml
+<JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="AppInsightInstrumentationKey" DeveloperMode="true" ClientEnabled="true" ServerEnabled="true" TelemetryVersion="1.0.0" />
 ```
 
 # Registering a Test Application in your B2C tenant
