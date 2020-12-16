@@ -238,6 +238,7 @@ PublicPolicyUri="http://yourtenant.onmicrosoft.com/B2C_1A_VC_TrustFrameworkExten
             <Item Key="ServiceUrl">https://your-app-name-that-must-be-unique.azurewebsites.net/presentation-response-b2c</Item>
             <Item Key="AuthenticationType">None</Item>
             <Item Key="SendClaimsIn">Body</Item>
+            <Item Key="AllowInsecureAuthInProduction">true</Item>
           </Metadata>
           <InputClaims>
             <InputClaim ClaimTypeReferenceId="VCStateId" PartnerClaimType="id" /> <!-- Key to auth result. Comes from the UX -->
